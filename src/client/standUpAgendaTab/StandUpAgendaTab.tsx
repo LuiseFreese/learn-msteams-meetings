@@ -269,6 +269,7 @@ export const StandUpAgendaTab = () => {
         <Text content="Check the stand up topics that have been presented during this meeting" />
         {
           sortedTopics.map(topic => (
+            // eslint-disable-next-line react/jsx-key
             <Card>
               <Card.Header>
                 <Text content={topic.title} weight="bold" />
