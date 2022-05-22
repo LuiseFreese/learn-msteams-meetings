@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.11",
+  "id": "74592830-c87d-11ec-be3d-73770288e976",
+  "version": "0.0.1",
+  "packageName": "learnmsteamsmeetings",
+  "developer": {
+    "name": "Stand-up Agenda",
+    "websiteUrl": "https://m365princess.ngrok.io",
+    "privacyUrl": "https://m365princess.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://m365princess.ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "STand-up Agenda",
+    "full": "STand-up Agenda"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://m365princess.ngrok.io/standUpAgendaTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "groupchat"
+      ],
+      "context": [
+        "meetingChatTab",
+        "meetingDetailsTab",
+        "meetingSidePanel",
+        "meetingStage"
+      ],
+      "meetingSurfaces": [
+        "sidePanel",
+        "stage"
+      ]
+    }
+  ],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "m365princess.ngrok.io"
+  ],
+  "showLoadingIndicator": false,
+  "webApplicationInfo": {
+    "id": "143e17bf-066e-4544-bdf9-104dd9b87774",
+    "resource": "api://m365princess.ngrok.io/143e17bf-066e-4544-bdf9-104dd9b87774"
+  }
+}

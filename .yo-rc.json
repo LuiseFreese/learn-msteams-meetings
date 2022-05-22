@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Stand-up Agenda"
+    },
+    "libraryName": "learnMsteamsMeetings",
+    "generator-version": "3.5.0"
+  }
+}
