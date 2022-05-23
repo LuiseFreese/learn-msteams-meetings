@@ -32,7 +32,6 @@ export const StandUpAgendaTab = () => {
   const [entityId, setEntityId] = useState<string | undefined>();
   const [name, setName] = useState<string>();
   const [error, setError] = useState<string>();
-
   const [accessToken, setAccessToken] = useState<string>();
   const [meetingId, setMeetingId] = useState<string | undefined>();
   const [onlineMeeting, setOnlineMeeting] = useState<OnlineMeeting>({});
@@ -289,7 +288,65 @@ export const StandUpAgendaTab = () => {
         }
       </Flex>
     )
-  }
+  };
+
+  const getMeetingStageUX = () => {
+    const presenters = Object.values(
+      standupTopics.filter((topic) => { return topic.approved; })
+        .reduce(
+          (result, standupTopic) => {
+            // create presenter if !exist
+            if (!result[standupTopic.presenter.name]) {
+              result[standupTopic.presenter.name] = {
+                presenter: standupTopic.presenter.name,
+                topics: []
+              };
+            }
+  
+            // add topic to presenter
+            result[standupTopic.presenter.name].topics.push({
+              title: standupTopic.title,
+              approved: standupTopic.approved,
+              presented: standupTopic.presented
+            });
+  
+            return result;
+          }, {}
+        )
+    );
+  
+    return (
+        <Grid columns="3" styles={{ margin: "20px", gap: "20px" }}>
+          {
+            sortBy(presenters, [(p: any) => p.presenter]).map(presenter => (
+              // eslint-disable-next-line react/jsx-key  
+              <div>
+                <Text content={presenter.presenter} weight="semibold" size="larger" />
+                <Flex column styles={{ gap: "10px" }}>
+                  {
+                    orderBy(presenter.topics,
+                      ["presented", "title"],
+                      ["desc", "asc"]
+                    )
+                      .map(
+                        (topic: any) => (
+                          // eslint-disable-next-line react/jsx-key  
+                          <Card>
+                            <Text content={topic.title} size="large" />
+                            {topic.presented &&
+                              <Pill styles={{ background: "#E7F2DA" }}>Presented</Pill>
+                            }
+                          </Card>
+                        )
+                      )
+                  }
+                </Flex>
+              </div>
+            ))
+          }
+        </Grid>
+      );
+  };
 
   /**
    * The render() method to create the UI of the tab
@@ -297,10 +354,17 @@ export const StandUpAgendaTab = () => {
   let mainContentElement: JSX.Element | JSX.Element[] | null = null;
   switch (frameContext) {
     case microsoftTeams.FrameContexts.content:
-      mainContentElement = getPreMeetingUX();
+        if (onlineMeeting.endDateTime) {
+            mainContentElement = ((new Date(onlineMeeting.endDateTime as string)).getTime() > Date.now())
+          ? getPreMeetingUX()
+          : getMeetingStageUX();
+      }
       break;
     case microsoftTeams.FrameContexts.sidePanel:
       mainContentElement = getSidepanelUX();
+      break;
+    case microsoftTeams.FrameContexts.meetingStage:
+      mainContentElement = getMeetingStageUX();
       break;
     default:
       mainContentElement = null;
